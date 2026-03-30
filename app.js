@@ -216,8 +216,8 @@ const funFactPoolScroll = [
 function renderOdometer(isOffline) {
     if (!state.odometer) return;
     
-    chartGaugeMouse.setOption(getGaugeOption('鼠标位移', 'M', '#00f2fe', 2000, state.odometer.mouse_meters));
-    chartGaugeScroll.setOption(getGaugeOption('滚轮滚动', 'M', '#ff0844', 5, state.odometer.scroll_meters));
+    chartGaugeMouse.setOption(getGaugeOption('鼠标位移', 'M', '#00f2fe', 4000, state.odometer.mouse_meters));
+    chartGaugeScroll.setOption(getGaugeOption('滚轮滚动', 'M', '#ff0844', 10, state.odometer.scroll_meters));
     
     if(!state.selectedFunFact) {
         const isScrollFact = Math.random() > 0.5;
