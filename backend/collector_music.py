@@ -1,4 +1,3 @@
-# collector_music.py
 import asyncio
 from datetime import datetime
 

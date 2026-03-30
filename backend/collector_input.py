@@ -1,12 +1,9 @@
-# collector_input.py
 import math
 from datetime import datetime, timezone, timedelta
 from utils import get_exact_bucket_id
 
-# 【核心物理参数】
 # 1 逻辑像素对应的物理毫米数。
 # 基于 3072*1920 分辨率、200%缩放、16寸屏幕计算得出。
-# 如果你发现距离偏大或偏小，可以微调这个值 (比如 0.224 或 0.112)
 MM_PER_PIXEL = 0.224 
 
 def get_input_stats(aw):
@@ -51,11 +48,10 @@ def get_input_stats(aw):
             sx = data.get('scrollX', 0)
             sy = data.get('scrollY', 0)
             
-            # 使用勾股定理计算真实的斜边移动距离（像素）
+            # 勾股定理
             total_mouse_px += math.sqrt(dx**2 + dy**2)
             total_scroll_px += math.sqrt(sx**2 + sy**2)
             
-        # 转换为物理距离（米），1 米 = 1000 毫米
         mouse_meters = (total_mouse_px * MM_PER_PIXEL) / 1000.0
         scroll_meters = (total_scroll_px * MM_PER_PIXEL) / 1000.0
         

@@ -1,4 +1,3 @@
-# utils.py
 
 def get_exact_bucket_id(aw, prefix):
     """安全获取本地真实的 Bucket ID"""

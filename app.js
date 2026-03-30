@@ -1,13 +1,9 @@
-/* app.js */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-// ==========================================
-// ！！请填入你的 Firebase 数据库地址！！
 const firebaseConfig = {
     databaseURL: "https://wanakachi-monitoring-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
-// ==========================================
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
@@ -31,16 +27,12 @@ onValue(ref(db, 'input_history'), (snapshot) => {
     if (payload.odometer) state.odometer = payload.odometer; 
 });
 
-// ==========================================
-// 2. 核心：仪表盘样式深度重构
-// ==========================================
+// 2. 仪表盘样式配置
 const getGaugeOption = (chartName, unitStr, colorMain, maxValue, dataValue) => ({
     series: [{
         name: chartName,
         type: 'gauge',
-        // 【核心修改 1】：将圆心推到画布极其靠下的位置 (75%)，配合压扁的高度，完美消除下方留白
         center: ['50%', '65%'], 
-        // 半径放大以撑满画布
         radius: '75%', 
         startAngle: 180, 
         endAngle: 0,
@@ -49,7 +41,7 @@ const getGaugeOption = (chartName, unitStr, colorMain, maxValue, dataValue) => (
         splitNumber: 5,
         axisLine: {
             lineStyle: {
-                width: 10, // 轴线宽度
+                width: 10,
                 color: [
                     [1, new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                         { offset: 0, color: colorMain + '20' }, 
@@ -59,19 +51,16 @@ const getGaugeOption = (chartName, unitStr, colorMain, maxValue, dataValue) => (
                 ]
             }
         },
-        // 【核心修改 2】：使用负数 distance 将小刻度推出发光轴线
         axisTick: { 
             distance: -15, 
             length: 8, 
             lineStyle: { color: colorMain + '50', width: 2 } 
         },
-        // 【核心修改 3】：使用负数 distance 将大刻度推出发光轴线
         splitLine: { 
             distance: -18, 
             length: 12, 
             lineStyle: { color: colorMain, width: 3 } 
         },
-        // 【核心修改 4】：将数字刻度推到最外围！
         axisLabel: { 
             distance: -30, 
             color: '#8b8b99', 
@@ -84,7 +73,7 @@ const getGaugeOption = (chartName, unitStr, colorMain, maxValue, dataValue) => (
         },
         pointer: { 
             icon: 'triangle', 
-            length: '80%', // 指针稍微缩短，不打架
+            length: '80%',
             width: 8,
             itemStyle: { color: colorMain, borderJoin: 'round' }
         },
@@ -95,16 +84,13 @@ const getGaugeOption = (chartName, unitStr, colorMain, maxValue, dataValue) => (
                 value: { fontSize: 32, fontWeight: 'bolder', color: '#fff', padding: [10, 0] },
                 unit: { fontSize: 14, color: '#8b8b99', verticalAlign: 'bottom' }
             },
-            // 【核心修改 5】：让中间的数字刚好坐在指针的轴心正上方，不再重合
             offsetCenter: [0, '55%'] 
         },
         data: [{ value: dataValue }]
     }]
 });
 
-// ==========================================
 // 3. ECharts 柱状图配置
-// ==========================================
 function renderCharts(chartData) {
     const boundaries = chartData.map(item => item.time);
     const lastTime = boundaries[boundaries.length - 1];
@@ -135,9 +121,7 @@ const getChartOptionBar = (name, colorStr, boundaries, dummyData, dataY) => ({
     series: [{ name: name, type: 'bar', xAxisIndex: 1, barCategoryGap: '2%', itemStyle: { borderRadius: [4, 4, 0, 0], color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{ offset: 0, color: colorStr }, { offset: 1, color: colorStr + '10' }]) }, data: dataY }]
 });
 
-// ==========================================
 // 4. 卡片 DOM 渲染
-// ==========================================
 function renderApp(isOffline, diffSeconds) {
     if (!state.app) return;
     const card = document.getElementById('card-app');
@@ -160,7 +144,6 @@ function renderApp(isOffline, diffSeconds) {
     else { categoryContainer.style.display = 'none'; }
     document.getElementById('time-app').innerText = formatRelativeTime(state.app.last_updated);
 
-    // 【修改点】：去掉了所有的 full-width
     if (isOffline) {
         card.className = 'card offline-mode';
         dot.className = 'status-dot';
@@ -193,7 +176,6 @@ function renderMusic(isOffline) {
     artistEl.innerText = state.music.artist === '未知歌手' ? '' : state.music.artist;
     document.getElementById('time-music').innerText = formatRelativeTime(state.music.last_updated);
 
-    // 【修改点】：去掉了所有的 full-width
     if (isOffline) {
         card.className = 'card offline-mode';
         dot.className = 'status-dot';

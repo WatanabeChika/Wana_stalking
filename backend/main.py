@@ -1,24 +1,19 @@
-# main.py
 import time
 from datetime import datetime
 from aw_client import ActivityWatchClient
 import firebase_admin
 from firebase_admin import credentials, db
 
-# 导入分离的数据收集模块
 from collector_window import get_current_status
 from collector_input import get_input_stats
 from collector_music import get_music_status
 
-# ==========================================
-# ！！请在这里填写你的项目核心配置！！
-# ==========================================
-FIREBASE_KEY_PATH = "D:/wanakachi-monitoring-firebase-adminsdk-fbsvc-01b51930a9.json" 
+FIREBASE_KEY_PATH = "wanakachi-monitoring-firebase-adminsdk-fbsvc-01b51930a9.json" 
 FIREBASE_DB_URL = "https://wanakachi-monitoring-default-rtdb.asia-southeast1.firebasedatabase.app/" 
 
-# 轮询刷新频率 (秒) - 依然保持极快的 3 秒检测频率，但不再每次都上传
+# 轮询刷新频率
 UPDATE_INTERVAL = 3  
-# 心跳强制同步频率 (秒) - 即使状态没变，每 1 分钟也会对齐一次数据
+# 心跳强制同步频率
 FORCE_SYNC_INTERVAL = 60 
 
 MUSIC_APP_ALLOWLIST = [
@@ -84,7 +79,6 @@ WINDOW_TITLE_SPECIAL_CASES = {
     "portal2.exe"            : "Portal 2",
     "aw-qt.exe"              : "ActivityWatch",
 }
-# ==========================================
 
 # 1. 初始化 Firebase
 try:
@@ -104,11 +98,9 @@ def push_to_firebase(node_name, data, log_msg=None):
     except Exception as e:
         print(f"推送 {node_name} 失败: {e}")
 
-# ==========================================
-# 4. 主循环引擎 (带智能缓存机制)
-# ==========================================
+# 4. 主循环引擎
 if __name__ == "__main__":
-    print(f"🚀 启动全方位状态监听服务 (已开启智能缓存优化)...")
+    print(f"🚀 启动全方位状态监听服务...")
     
     # 初始化状态缓存字典
     last_app_sig = ""
@@ -151,7 +143,7 @@ if __name__ == "__main__":
             print(f"\n[{datetime.now().strftime('%H:%M:%S')}] 触发整点统计，拉取并推送键鼠数据...")
             input_stats = get_input_stats(aw)
             if input_stats:
-                # 【修改点】：将小时数据和里程计数据分别打包推送
+                # 将小时数据和里程计数据分别打包推送
                 push_to_firebase('input_history', {
                     "last_updated": datetime.now().isoformat(),
                     "data": input_stats["hourly_stats"],
@@ -159,5 +151,4 @@ if __name__ == "__main__":
                 }, log_msg=f"✅ 成功推送键鼠数据 | 今日鼠标已滑行: {input_stats['today_odometer']['mouse_meters']} 米")
             last_input_update_hour = current_hour
 
-        # 依旧保持 3 秒一次的高频检测，保证你切换软件时能瞬间捕获
         time.sleep(UPDATE_INTERVAL)

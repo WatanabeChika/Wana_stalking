@@ -1,4 +1,3 @@
-# collector_window.py
 import re
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
@@ -104,7 +103,6 @@ def get_current_status(aw, top_sites, web_categories, special_cases):
                     if isinstance(w_ts, str):
                         w_ts = datetime.fromisoformat(w_ts.replace('Z', '+00:00'))
                     
-                    # 【全新解法】：不再计算时长重叠！
                     # 只看这个网页的“起始点”，是否发生在这个窗口的生命周期内。
                     # 允许 2 秒的提前量，防止 Web 插件比 Window 插件早触发几毫秒。
                     # 允许 5 秒的滞后量，防止当前窗口的结束时间还未在数据库完全更新。
