@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanakachi - 个人监控看板</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+    <div id="card-app" class="card">
+        <div class="card-header">
+            <span><span id="app-dot" class="status-dot"></span>Current Activity</span>
+            <span id="time-app" class="update-time">等待数据...</span>
+        </div>
+        <div class="status-main">
+            <div id="app-status-text" style="color: var(--text-sub);">连接中...</div>
+            <div id="app-name" class="app-title">-</div>
+            <div id="app-category-container" style="display: none;">
+                <span id="app-category" class="app-category-badge"></span>
+            </div>
+            <div id="app-duration" class="app-duration"></div>
+        </div>
+    </div>
+
+    <div id="card-music" class="card">
+        <div class="card-header">
+            <span><span id="music-dot" class="status-dot"></span><span id="music-header-text">Now Playing</span></span>
+            <span id="time-music" class="update-time">等待数据...</span>
+        </div>
+        <div class="status-main">
+            <div id="music-title" class="music-title">休眠中</div>
+            <div id="music-artist" class="music-artist">无播放任务</div>
+        </div>
+    </div>
+
+    <div id="card-keyboard" class="card">
+        <div class="card-header">
+            <span>Keyboard Presses (6H)</span>
+            <span id="time-input" class="update-time">等待数据...</span>
+        </div>
+        <div id="chart-keyboard" class="chart-container"></div>
+    </div>
+
+    <div id="card-mouse" class="card">
+        <div class="card-header">
+            <span>Mouse Clicks (6H)</span>
+            <span id="time-input-mouse" class="update-time">等待数据...</span>
+        </div>
+        <div id="chart-mouse" class="chart-container"></div>
+    </div>
+
+    <div id="card-odometer" class="card full-width">
+        <div class="card-header">
+            <span>Physical Odometer (Today)</span>
+            <span id="time-odo" class="update-time">等待数据...</span>
+        </div>
+        <div class="odo-gauges-wrapper">
+            <div class="odo-gauge-box">
+                <div class="odo-label">MOUSE DISTANCE</div>
+                <div id="chart-gauge-mouse" class="gauge-container"></div>
+            </div>
+            <div class="odo-gauge-box">
+                <div class="odo-label">SCROLL DISTANCE</div>
+                <div id="chart-gauge-scroll" class="gauge-container"></div>
+            </div>
+        </div>
+        <div id="odo-subtext" class="odo-subtext">积累物理位移...</div>
+    </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

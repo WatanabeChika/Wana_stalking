@@ -1,0 +1,80 @@
+/* style.css */
+:root {
+    --bg-color: #12121c;
+    --card-bg: #1e1e2f;
+    --text-main: #ffffff;
+    --text-sub: #8b8b99;
+    --accent-green: #00f2fe; 
+    --accent-pink: #ff0844;
+    --accent-purple: #89216b;
+    --accent-blue: #005bea;
+    --accent-orange: #f39c12;
+    --offline-gray: #444455;
+}
+
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; }
+.dashboard { width: 100%; max-width: 1000px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.card { background-color: var(--card-bg); border-radius: 12px; padding: 20px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; transition: all 0.3s ease; }
+.card.full-width { grid-column: 1 / -1; }
+
+.card-header { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+.update-time { font-size: 12px; background: rgba(255, 255, 255, 0.05); padding: 4px 8px; border-radius: 4px; color: var(--text-sub); transition: all 0.3s ease; }
+
+.status-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; background-color: #555; transition: all 0.3s ease; }
+.status-dot.active { background-color: var(--accent-green); box-shadow: 0 0 10px var(--accent-green); }
+.status-dot.afk { background-color: var(--accent-orange); }
+.status-dot.playing { background-color: var(--accent-pink); box-shadow: 0 0 10px var(--accent-pink); }
+
+.status-main { 
+    text-align: center; 
+    padding: 10px 0; 
+    flex: 1;                 /* 1. 让主体内容区撑满卡片拉伸后的剩余高度 */
+    display: flex;           /* 2. 开启内部弹性布局 */
+    flex-direction: column;  /* 3. 保持文字从上到下排列 */
+    justify-content: center; /* 4. 核心：在垂直方向上绝对居中！ */
+    align-items: center;     /* 5. 确保内容在水平方向居中 */
+}
+
+.app-title { font-size: 32px; font-weight: bold; margin: 10px 0; color: #fff; transition: color 0.3s ease; }
+.app-duration { color: var(--accent-green); font-size: 16px; font-weight: bold; margin-top: 15px; transition: color 0.3s ease; }
+
+.app-category-badge {
+    display: inline-block; margin-top: 5px; padding: 4px 14px; border-radius: 20px;
+    background: rgba(0, 242, 254, 0.1); color: var(--accent-green); font-size: 14px;
+    font-weight: 600; border: 1px solid rgba(0, 242, 254, 0.3); letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.music-title { font-size: 24px; font-weight: bold; margin: 10px 0; color: #fff; transition: color 0.3s ease; }
+.music-artist { color: var(--text-sub); font-size: 16px; transition: color 0.3s ease; }
+
+.chart-container { width: 100%; height: 250px; transition: all 0.5s ease; }
+
+/* ========================================= */
+/* 霓虹仪表盘布局深度优化 (解决空隙过大)      */
+/* ========================================= */
+.odo-gauges-wrapper { display: flex; justify-content: space-around; align-items: center; flex: 1; padding: 10px 0 0 0; }
+.odo-gauge-box { text-align: center; width: 45%; }
+/* 【修改点 1】：去掉底部 margin，让标题贴近仪表盘 */
+.odo-label { font-size: 12px; color: var(--text-sub); letter-spacing: 2px; margin-bottom: 0px; } 
+/* 【修改点 2】：大幅压缩仪表盘容器高度，消除底部巨大的无效留白 */
+.gauge-container { width: 100%; height: 200px; transition: all 0.5s ease; }
+
+/* 【修改点 3】：压缩虚线上方的留白 */
+.odo-subtext { text-align: center; font-size: 13px; color: var(--text-sub); margin-top: 5px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); transition: color 0.3s ease; }
+
+/* ========================================= */
+/* 状态降级 UI                               */
+/* ========================================= */
+.afk-mode .app-title { color: var(--text-sub); font-style: italic; }
+
+.offline-mode .status-dot { background-color: var(--offline-gray); box-shadow: none; }
+.offline-mode .app-title, 
+.offline-mode .music-title, 
+.offline-mode .app-duration { color: var(--text-sub); }
+.offline-mode .app-category-badge { background: rgba(139, 139, 153, 0.1); color: var(--text-sub); border-color: rgba(139, 139, 153, 0.3); }
+.offline-mode .update-time { color: var(--accent-pink); background: rgba(255, 8, 68, 0.1); } 
+
+.offline-mode .chart-container,
+.offline-mode .gauge-container { filter: grayscale(1) opacity(0.3); pointer-events: none; }
+.offline-mode .odo-subtext { color: var(--offline-gray); }
