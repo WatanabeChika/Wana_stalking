@@ -243,12 +243,19 @@ function renderOdometer(isOffline) {
     else { card.className = 'card full-width'; }
 }
 
-window.addEventListener('resize', () => { 
-    chartKeyboard.resize(); 
-    chartMouse.resize(); 
-    chartGaugeMouse.resize();
-    chartGaugeScroll.resize(); 
+const dashboardEl = document.querySelector('.dashboard');
+const resizeObserver = new ResizeObserver(() => {
+    requestAnimationFrame(() => {
+        chartKeyboard.resize();
+        chartMouse.resize();
+        chartGaugeMouse.resize();
+        chartGaugeScroll.resize();
+    });
 });
+
+if (dashboardEl) {
+    resizeObserver.observe(dashboardEl);
+}
 
 // 工具函数
 function formatRelativeTime(isoString) {
