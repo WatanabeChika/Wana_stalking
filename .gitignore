@@ -1,5 +1,8 @@
 wanakachi-monitoring-firebase-adminsdk-fbsvc-01b51930a9.json
 
+startup.vbs
+*.lnk
+
 __pycache__/
 *.pyc
 *.pyo
