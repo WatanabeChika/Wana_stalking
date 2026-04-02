@@ -33,6 +33,7 @@ TOP_SITES = {
     "gemini.google.com": "Google Gemini",
     "moegirl.icu": "萌娘百科",
     "moegirl.org.cn": "萌娘百科",
+    "app.flowoss.com": "Flow - epub 阅读器",
 }
 
 WEB_CATEGORIES = {

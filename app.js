@@ -171,11 +171,25 @@ function renderMusic(isOffline) {
     const headerText = document.getElementById('music-header-text');
     const titleEl = document.getElementById('music-title');
     const artistEl = document.getElementById('music-artist');
+    const coverEl = document.getElementById('music-cover');
+    const mainContainerEl = document.getElementById('music-main-container'); 
 
+    // 设置文本内容
     titleEl.innerText = state.music.title === '' ? '休眠中' : state.music.title;
     artistEl.innerText = state.music.artist === '未知歌手' ? '' : state.music.artist;
     document.getElementById('time-music').innerText = formatRelativeTime(state.music.last_updated);
 
+    // 处理封面图片的展示逻辑
+    if (state.music.cover_base64 && state.music.title !== '') {
+        coverEl.src = state.music.cover_base64;
+        mainContainerEl.classList.add('has-cover');
+    } else {
+        mainContainerEl.classList.remove('has-cover');
+        // 延时清除 src 避免下次加载时的瞬间闪烁
+        setTimeout(() => { if (!mainContainerEl.classList.contains('has-cover')) coverEl.src = ''; }, 400); 
+    }
+
+    // 离线模式和播放状态逻辑
     if (isOffline) {
         card.className = 'card offline-mode';
         dot.className = 'status-dot';
@@ -193,6 +207,7 @@ function renderMusic(isOffline) {
             headerText.innerText = 'Now Playing';
             titleEl.innerText = '休眠中';
             artistEl.innerText = '无播放任务';
+            mainContainerEl.classList.remove('has-cover'); 
         }
     }
 }
