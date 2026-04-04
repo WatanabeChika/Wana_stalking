@@ -10,17 +10,30 @@ except ImportError:
     MediaManager = None
     DataReader = None
 
+# 全局缓存
+_cached_manager = None
+_last_song_id = None
+_cached_cover_base64 = None
+
 async def fetch_media_info_async(allowlist):
     """异步调用 Windows API 获取媒体信息，包含音乐封面"""
+    global _cached_manager, _last_song_id, _cached_cover_base64
+    
     if not MediaManager: return None
+
     try:
-        manager = await MediaManager.request_async()
-        
+        # 只有在第一次运行，或者底层服务崩溃时，才去请求 manager
+        if _cached_manager is None:
+            _cached_manager = await MediaManager.request_async()
+            
+        manager = _cached_manager
+
         # 1. 获取系统中所有的媒体会话
         sessions = manager.get_sessions()
-        if not sessions: return {"status": "stopped", "title": "", "artist": ""}
+        if not sessions: 
+            return {"status": "stopped", "title": "", "artist": ""}
 
-        # 2. 筛选出在白名单里的设备
+        # 2. 筛选白名单设备
         valid_sessions = []
         for session in sessions:
             if not session: continue
@@ -53,33 +66,44 @@ async def fetch_media_info_async(allowlist):
         is_playing = (info.playback_status == 4)
         props = await selected_session.try_get_media_properties_async()
         
-        if not props.title: 
+        title = props.title
+        artist = props.artist if props.artist else "未知歌手"
+        
+        if not title: 
             return {"status": "stopped", "title": "", "artist": ""}
             
-        # 5. 解析封面图片 (Thumbnail)
-        cover_base64 = None
-        # mpv 封面只会默认显示灰色
-        if props.thumbnail and "mpv" not in app_id:
-            try:
-                stream = await props.thumbnail.open_read_async()
-                reader = DataReader(stream)
-                await reader.load_async(stream.size)
-                cover_bytes = bytearray(stream.size)
-                reader.read_bytes(cover_bytes)
-                cover_base64 = "data:image/jpeg;base64," + base64.b64encode(cover_bytes).decode('utf-8')
-            except Exception as e:
-                print(f"提取封面失败: {e}")
+        # 切歌检测。如果歌名和歌手没变，直接使用上次算好的 Base64 封面
+        current_song_id = f"{title}_{artist}"
+        
+        if current_song_id != _last_song_id:
+            # 只有发现“切歌”了，才重新提取并计算封面
+            _last_song_id = current_song_id
+            _cached_cover_base64 = None 
+            
+            if props.thumbnail and "mpv" not in app_id:
+                try:
+                    stream = await props.thumbnail.open_read_async()
+                    reader = DataReader(stream)
+                    await reader.load_async(stream.size)
+                    cover_bytes = bytearray(stream.size)
+                    reader.read_bytes(cover_bytes)
+                    _cached_cover_base64 = "data:image/jpeg;base64," + base64.b64encode(cover_bytes).decode('utf-8')
+                except Exception as e:
+                    print(f"提取封面失败: {e}")
                 
         return {
             "status": "playing" if is_playing else "paused",
             "app_id": app_id,
-            "title": props.title,
-            "artist": props.artist if props.artist else "未知歌手",
-            "cover_base64": cover_base64,
+            "title": title,
+            "artist": artist,
+            "cover_base64": _cached_cover_base64,
             "last_updated": datetime.now().isoformat()
         }
+        
     except Exception as e:
         print(f"提取媒体数据失败: {e}")
+        # 如果出现异常（比如底层 NPSM 服务重启），清空缓存的 manager，下次强制重新获取
+        _cached_manager = None
         return None
 
 def get_music_status(allowlist):

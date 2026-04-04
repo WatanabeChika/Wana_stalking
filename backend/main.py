@@ -45,6 +45,7 @@ WEB_CATEGORIES = {
     "course.sjtu.plus": "SJTU 校园网",
     "pan.sjtu.edu.cn": "SJTU 校园网",
     "my.sjtu.edu.cn": "SJTU 校园网",
+    "v.sjtu.edu.cn": "SJTU 校园网",
     
     "siliconflow.cn": "AI 大模型",
     "aihubmix.com": "AI 大模型",
@@ -79,6 +80,7 @@ WINDOW_TITLE_SPECIAL_CASES = {
     "Adobe Premiere Pro.exe" : "Adobe Premiere Pro",
     "portal2.exe"            : "Portal 2",
     "aw-qt.exe"              : "ActivityWatch",
+    "Human.exe"              : "Human: Fall Flat",
 }
 
 # 1. 初始化 Firebase

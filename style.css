@@ -3,7 +3,7 @@
 body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: calc(20px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) calc(20px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left)); display: flex; justify-content: center; box-sizing: border-box; overflow-x: hidden; }
 
 .dashboard { width: 100%; max-width: 1000px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.card { background-color: var(--card-bg); border-radius: 12px; padding: 20px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; transition: all 0.3s ease; }
+.card { background-color: var(--card-bg); border-radius: 12px; padding: 20px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; transition: all 0.3s ease; min-width: 0; }
 .card.full-width { grid-column: 1 / -1; }
 .card-header { font-size: 14px; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
 .update-time { font-size: 12px; background: rgba(255, 255, 255, 0.05); padding: 4px 8px; border-radius: 4px; color: var(--text-sub); transition: all 0.3s ease; }
@@ -16,7 +16,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 .status-main { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px 0; flex: 1; min-height: 100px; transition: all 0.4s ease; width: 100%; box-sizing: border-box; }
 .status-main.has-cover { flex-direction: row; align-items: center; justify-content: center; gap: 24px; padding: 0 10px; }
 
-.app-title { font-size: 32px; font-weight: bold; margin: 10px 0; color: #fff; transition: color 0.3s ease; }
+.app-title { font-size: 32px; font-weight: bold; margin: 10px 0; color: #fff; transition: color 0.3s ease; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.2; }
 .app-duration { color: var(--accent-green); font-size: 16px; font-weight: bold; margin-top: 15px; transition: color 0.3s ease; }
 .app-category-badge { display: inline-block; margin-top: 5px; padding: 4px 14px; border-radius: 20px; background: rgba(0, 242, 254, 0.1); color: var(--accent-green); font-size: 14px; font-weight: 600; border: 1px solid rgba(0, 242, 254, 0.3); letter-spacing: 0.5px; transition: all 0.3s ease; }
 
