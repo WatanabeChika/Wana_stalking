@@ -16,7 +16,7 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 .status-main { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 10px 0; flex: 1; min-height: 100px; transition: all 0.4s ease; width: 100%; box-sizing: border-box; }
 .status-main.has-cover { flex-direction: row; align-items: center; justify-content: center; gap: 24px; padding: 0 10px; }
 
-.app-title { font-size: 32px; font-weight: bold; margin: 10px 0; color: #fff; transition: color 0.3s ease; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.2; }
+.app-title { font-size: 32px; font-weight: bold; margin: 10px 0; color: #fff; transition: color 0.3s ease; white-space: normal; overflow-wrap: break-word; line-height: 1.2; }
 .app-duration { color: var(--accent-green); font-size: 16px; font-weight: bold; margin-top: 15px; transition: color 0.3s ease; }
 .app-category-badge { display: inline-block; margin-top: 5px; padding: 4px 14px; border-radius: 20px; background: rgba(0, 242, 254, 0.1); color: var(--accent-green); font-size: 14px; font-weight: 600; border: 1px solid rgba(0, 242, 254, 0.3); letter-spacing: 0.5px; transition: all 0.3s ease; }
 
@@ -26,8 +26,8 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 .music-cover { width: 0; height: 0; opacity: 0; visibility: hidden; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-shrink: 0; margin: 0; }
 .status-main.has-cover .music-cover { width: 80px; height: 80px; opacity: 1; visibility: visible; }
 
-.music-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #fff; transition: color 0.3s ease; text-align: inherit; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.3; }
-.music-artist { color: var(--text-sub); font-size: 16px; transition: color 0.3s ease; text-align: inherit; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.4; }
+.music-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; color: #fff; transition: color 0.3s ease; text-align: inherit; white-space: normal; overflow-wrap: break-word; line-height: 1.3; }
+.music-artist { color: var(--text-sub); font-size: 16px; transition: color 0.3s ease; text-align: inherit; white-space: normal; overflow-wrap: break-word; line-height: 1.4; }
 
 .chart-container { width: 100%; height: 250px; transition: all 0.5s ease; }
 .odo-gauges-wrapper { display: flex; justify-content: space-around; align-items: center; flex: 1; padding: 10px 0 0 0; }

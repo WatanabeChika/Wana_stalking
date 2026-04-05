@@ -1,4 +1,5 @@
 import re
+import os
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
 from utils import get_exact_bucket_id
@@ -48,6 +49,13 @@ def get_clean_base_name(raw_title, app_exe, special_cases):
             
     parts = re.split(r'\s*[-—–|]\s*', clean_title)
     parsed_name = parts[-1].strip()
+
+    if "\\" in parsed_name or "/" in parsed_name:
+        clean_path = parsed_name.rstrip("\\/")
+        parsed_name = os.path.basename(clean_path)
+        
+        if not parsed_name:
+            parsed_name = app_exe.replace('.exe', '').capitalize()
     
     if parsed_name.lower() == "firefox" or parsed_name.lower() == "mozilla firefox":
         return "Mozilla Firefox"
