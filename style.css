@@ -45,6 +45,10 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
 .offline-mode .odo-subtext { color: var(--offline-gray); }
 .offline-mode .music-cover { filter: grayscale(1) opacity(0.3); box-shadow: none; }
 
+.page-logo { position: fixed; top: 20px; left: 20px; width: 36px; height: 36px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); z-index: 100; pointer-events: none; }
+.github-link { position: fixed; bottom: 20px; right: 20px; width: 44px; height: 44px; background-color: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-sub); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); z-index: 100; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none; }
+.github-link:hover { color: #fff; background-color: #24292e; transform: scale(1.15) translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); }
+
 @media screen and (max-width: 768px) {
     .dashboard { grid-template-columns: 1fr; gap: 15px; }
     .card { padding: 15px; }
@@ -52,6 +56,9 @@ body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-
     .odo-gauge-box { width: 100%; }
     .app-title { font-size: 24px; }
     .music-title { font-size: 20px; }
+    .page-logo { top: 15px; left: 15px; width: 28px; height: 28px; }
+    .github-link { bottom: 15px; right: 15px; width: 38px; height: 38px;}
+    .github-link svg { width: 18px; height: 18px; }
 }
 
 @media screen and (max-width: 480px) {

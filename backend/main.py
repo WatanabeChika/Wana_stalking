@@ -81,6 +81,8 @@ WINDOW_TITLE_SPECIAL_CASES = {
     "portal2.exe"            : "Portal 2",
     "aw-qt.exe"              : "ActivityWatch",
     "Human.exe"              : "Human: Fall Flat",
+    "WindowsTerminal.exe"    : "Windows Terminal",
+    "NeeView.exe"            : "NeeView",
 }
 
 # 1. 初始化 Firebase
